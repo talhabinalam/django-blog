@@ -19,6 +19,8 @@
     {% for group in groups %}
     <p>{{group.name}}</p>
     {% endfor %}
+    <h6 class="mt-3">Your IP Address: {{ip}}</h6>
+    <button type="button" class="btn btn-danger mt-3">Login Count:<span class="badge badge-light">{{ct}}</span></button>
 </div>
 {% endblock side %}
 

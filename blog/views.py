@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from .models import Post
 from django.contrib.auth.models import Group
 from .forms import ContactForm
+from django.core.cache import cache
 
 # Create your views here.
 def home(request):
@@ -31,7 +32,9 @@ def dashboard(request):
         user = request.user
         full_name = user.get_full_name()
         groups = user.groups.all()
-        return render(request, "blog/dashboard.html", {'posts':posts, 'full_name':full_name, 'groups':groups})
+        ip = request.session.get('ip', 0)
+        ct = cache.get('count', version=user.pk)
+        return render(request, "blog/dashboard.html", {'posts':posts, 'full_name':full_name, 'groups':groups, 'ip':ip, 'ct':ct})
     else:
         return HttpResponseRedirect('/login/')
 
